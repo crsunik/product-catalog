@@ -1,0 +1,7 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <include file="001_create_product.xml" relativeToChangelogFile="true"/>
+    <include file="002_create_order.xml" relativeToChangelogFile="true"/>
+    <include file="003_create_order_line.xml" relativeToChangelogFile="true"/>
+</databaseChangeLog>

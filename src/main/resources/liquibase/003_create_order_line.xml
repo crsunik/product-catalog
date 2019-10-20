@@ -1,0 +1,35 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet id="003_create_order_line" author="jchmiel">
+        <createTable tableName="order_line">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints unique="true" primaryKey="true"/>
+            </column>
+            <column name="order_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="numeric(19,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="numeric(19,0)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="order_id"
+                                 baseTableName="order_line"
+                                 constraintName="order_line_order_fkey"
+                                 referencedColumnNames="id"
+                                 referencedTableName="order"/>
+
+        <addForeignKeyConstraint baseColumnNames="product_id"
+                                 baseTableName="order_line"
+                                 constraintName="order_line_product_fkey"
+                                 referencedColumnNames="id"
+                                 referencedTableName="product"/>
+    </changeSet>
+</databaseChangeLog>
