@@ -37,9 +37,9 @@ public class OrderCreator {
 
 	private List<OrderLine> createOrderLines(PlaceOrderDTO placeOrder, Order order) {
 		return placeOrder.getOrderLines()
-		.stream()
-		.map(line -> createOrderLine(line, order))
-		.collect(Collectors.toList());
+				.stream()
+				.map(line -> createOrderLine(line, order))
+				.collect(Collectors.toList());
 	}
 
 	private OrderLine createOrderLine(PlaceOrderLineDTO lineDTO, Order order) {
