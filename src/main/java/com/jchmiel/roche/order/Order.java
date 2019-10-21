@@ -33,7 +33,7 @@ public class Order {
 	@Column(nullable = false)
 	private BigDecimal totalAmount;
 
-	@Column(nullable = false)
+	@Column(nullable = false, updatable = false)
 	private LocalDate createdDate;
 
 	@Column(nullable = false)
@@ -44,7 +44,7 @@ public class Order {
 		orderDTO.setBuyerEmail(buyerEmail);
 		orderDTO.setCreatedDate(createdDate);
 		orderDTO.setId(id);
-		orderDTO.setOrderLines(orderLines == null ? null : orderLines.stream().map(OrderLine::toDTO).collect(Collectors.toList()));
+		orderDTO.setOrderLines(orderLines.stream().map(OrderLine::toDTO).collect(Collectors.toList()));
 		orderDTO.setTotalAmount(totalAmount);
 		return orderDTO;
 	}

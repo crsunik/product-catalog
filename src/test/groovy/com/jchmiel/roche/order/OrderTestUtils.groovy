@@ -7,7 +7,7 @@ import com.jchmiel.roche.product.dto.ProductDTO
 
 class OrderTestUtils {
 
-    static PlaceOrderLineDTO orderLineDTO(String productSku, BigInteger quantity) {
+    static PlaceOrderLineDTO placeOrderLineDTO(String productSku, BigInteger quantity) {
         new PlaceOrderLineDTO(productSku: productSku, quantity: quantity)
     }
 

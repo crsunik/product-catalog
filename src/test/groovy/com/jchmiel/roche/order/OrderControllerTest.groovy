@@ -46,7 +46,7 @@ class OrderControllerTest extends Specification {
         def orderId = 1
 
         when:
-        def results = mockMvc.perform(MockMvcRequestBuilders.post('/api/v1/orders')
+        def results = mockMvc.perform(MockMvcRequestBuilders.post(OrderController.ORDERS_V1_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(placeOrder)))
 
@@ -76,7 +76,7 @@ class OrderControllerTest extends Specification {
         def placeOrder = new PlaceOrderDTO(orderLines: placeOrderLines, buyerEmail: 'test@buyer.com')
 
         when:
-        def results = mockMvc.perform(MockMvcRequestBuilders.post('/api/v1/orders')
+        def results = mockMvc.perform(MockMvcRequestBuilders.post(OrderController.ORDERS_V1_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(placeOrder)))
 
@@ -104,7 +104,7 @@ class OrderControllerTest extends Specification {
                 )
 
         when:
-        def results = mockMvc.perform(get('/api/v1/orders/{id}', orderDto.id))
+        def results = mockMvc.perform(get(OrderController.ORDERS_V1_URL + '/{id}', orderDto.id))
 
         then:
         results.andExpect(status().isOk())
@@ -130,7 +130,7 @@ class OrderControllerTest extends Specification {
 
     def 'should receive 404 if order with given id wasnt found'() {
         when:
-        def results = mockMvc.perform(get('/api/v1/orders/{id}', 1L))
+        def results = mockMvc.perform(get(OrderController.ORDERS_V1_URL + '/{id}', 1L))
 
         then:
         results.andExpect(status().isNotFound())
@@ -146,7 +146,7 @@ class OrderControllerTest extends Specification {
         def to = LocalDate.now()
 
         when:
-        def results = mockMvc.perform(get('/api/v1/orders')
+        def results = mockMvc.perform(get(OrderController.ORDERS_V1_URL)
                 .param('from', from.format('dd-MM-yyyy'))
                 .param('to', to.format('dd-MM-yyyy'))
 
@@ -183,7 +183,7 @@ class OrderControllerTest extends Specification {
         def to = LocalDate.now()
 
         when:
-        def results = mockMvc.perform(get('/api/v1/orders')
+        def results = mockMvc.perform(get(OrderController.ORDERS_V1_URL)
                 .param('from', from.format('dd-MM-yyyy'))
                 .param('to', to.format('dd-MM-yyyy'))
         )

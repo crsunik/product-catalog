@@ -33,7 +33,7 @@ class ProductControllerTest extends Specification {
 
     def 'should return empty set of products'() {
         when:
-        def results = mockMvc.perform(get('/api/v1/products'))
+        def results = mockMvc.perform(get(ProductController.PRODUCTS_V1_URL))
 
         then:
         results.andExpect(status().isOk())
@@ -52,7 +52,7 @@ class ProductControllerTest extends Specification {
 
 
         when:
-        def results = mockMvc.perform(get('/api/v1/products'))
+        def results = mockMvc.perform(get(ProductController.PRODUCTS_V1_URL))
 
         then:
         results.andExpect(status().isOk())
@@ -84,7 +84,7 @@ class ProductControllerTest extends Specification {
         def createProductDTOContent = objectMapper.writeValueAsBytes(createProductDTO)
 
         when:
-        def results = mockMvc.perform(post('/api/v1/products')
+        def results = mockMvc.perform(post(ProductController.PRODUCTS_V1_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(createProductDTOContent))
 
@@ -107,7 +107,7 @@ class ProductControllerTest extends Specification {
         def productDTO = productDTO('product')
 
         when:
-        def results = mockMvc.perform(get('/api/v1/products/{1}', productDTO.sku))
+        def results = mockMvc.perform(get(ProductController.PRODUCTS_V1_URL + '/{sku}', productDTO.sku))
 
         then:
         results.andExpect(status().isOk())
@@ -128,7 +128,7 @@ class ProductControllerTest extends Specification {
         def productDTO = productDTO('product')
 
         when:
-        def results = mockMvc.perform(get('/api/v1/products/{sku}', productDTO.sku))
+        def results = mockMvc.perform(get(ProductController.PRODUCTS_V1_URL + '/{sku}', productDTO.sku))
 
         then:
         results.andExpect(status().isNotFound())
@@ -145,7 +145,7 @@ class ProductControllerTest extends Specification {
         def productDTO = productDTO('updateProduct')
 
         when:
-        def results = mockMvc.perform(put('/api/v1/products/{sku}', productDTO.sku)
+        def results = mockMvc.perform(put(ProductController.PRODUCTS_V1_URL + '/{sku}', productDTO.sku)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(productDTO)))
 
@@ -162,7 +162,7 @@ class ProductControllerTest extends Specification {
         def productDTO = productDTO('updateProduct')
 
         when:
-        def results = mockMvc.perform(put('/api/v1/products/{sku}', productDTO.sku)
+        def results = mockMvc.perform(put(ProductController.PRODUCTS_V1_URL + '/{sku}', productDTO.sku)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(productDTO)))
 
@@ -179,7 +179,7 @@ class ProductControllerTest extends Specification {
         def sku = 'sku'
 
         when:
-        def results = mockMvc.perform(delete('/api/v1/products/{sku}', sku))
+        def results = mockMvc.perform(delete(ProductController.PRODUCTS_V1_URL + '/{sku}', sku))
 
         then:
         results.andExpect(status().isNoContent())
@@ -194,7 +194,7 @@ class ProductControllerTest extends Specification {
         def sku = 'sku'
 
         when:
-        def results = mockMvc.perform(delete('/api/v1/products/{sku}', sku))
+        def results = mockMvc.perform(delete(ProductController.PRODUCTS_V1_URL + '/{sku}', sku))
 
         then:
         results.andExpect(status().isNotFound())

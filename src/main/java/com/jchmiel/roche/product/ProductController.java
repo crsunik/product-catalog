@@ -20,9 +20,11 @@ import javax.validation.Valid;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/api/v1/products")
+@RequestMapping(ProductController.PRODUCTS_V1_URL)
 @RequiredArgsConstructor
 public class ProductController {
+
+	public static final String PRODUCTS_V1_URL = "/api/v1/products";
 
 	private final ProductFacade productFacade;
 

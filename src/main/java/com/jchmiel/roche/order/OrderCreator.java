@@ -27,16 +27,19 @@ public class OrderCreator {
 			throw new EmptyOrderException();
 		}
 		Order order = new Order();
-		List<OrderLine> orderLines
-				= placeOrder.getOrderLines()
-				.stream()
-				.map(line -> createOrderLine(line, order))
-				.collect(Collectors.toList());
+		List<OrderLine> orderLines = createOrderLines(placeOrder, order);
 		order.setBuyerEmail(placeOrder.getBuyerEmail());
 		order.setCreatedDate(currentDateProvider.currentDate());
 		order.setTotalAmount(priceCalculator.calculateTotalAmount(orderLines));
 		order.setOrderLines(orderLines);
 		return order;
+	}
+
+	private List<OrderLine> createOrderLines(PlaceOrderDTO placeOrder, Order order) {
+		return placeOrder.getOrderLines()
+		.stream()
+		.map(line -> createOrderLine(line, order))
+		.collect(Collectors.toList());
 	}
 
 	private OrderLine createOrderLine(PlaceOrderLineDTO lineDTO, Order order) {

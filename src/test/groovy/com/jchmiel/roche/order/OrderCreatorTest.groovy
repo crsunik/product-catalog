@@ -11,7 +11,7 @@ import spock.lang.Specification
 
 import java.time.LocalDate
 
-import static com.jchmiel.roche.order.OrderTestUtils.orderLineDTO
+import static com.jchmiel.roche.order.OrderTestUtils.placeOrderLineDTO
 
 class OrderCreatorTest extends Specification {
 
@@ -32,7 +32,7 @@ class OrderCreatorTest extends Specification {
 
     def "should create order"() {
         given:
-        def orderLines = [orderLineDTO("sku0", 10), orderLineDTO("sku1", 20)]
+        def orderLines = [placeOrderLineDTO("sku0", 10), placeOrderLineDTO("sku1", 20)]
         def placeOrderDto = new PlaceOrderDTO(buyerEmail: 'buyerEmail@test', orderLines: orderLines)
         def currentDate = LocalDate.of(1990, 1, 1)
         def product0 = ProductTestUtils.product(orderLines[0].productSku, orderLines[0].productSku, 10.0)
@@ -68,7 +68,7 @@ class OrderCreatorTest extends Specification {
 
     def "exception ProductNotFoundException should be thrown"() {
         given:
-        def orderLines = [orderLineDTO("sku0", 10), orderLineDTO("sku1", 20)]
+        def orderLines = [placeOrderLineDTO("sku0", 10), placeOrderLineDTO("sku1", 20)]
         def placeOrderDto = new PlaceOrderDTO(buyerEmail: 'buyerEmail@test', orderLines: orderLines)
         def product0 = ProductTestUtils.product(orderLines[0].productSku, orderLines[0].productSku, 10.0)
         def line0Amount = 100.0

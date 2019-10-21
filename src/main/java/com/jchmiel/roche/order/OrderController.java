@@ -21,8 +21,10 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/orders")
+@RequestMapping(OrderController.ORDERS_V1_URL)
 public class OrderController {
+
+	public static final String ORDERS_V1_URL = "/api/v1/orders";
 
 	private final OrderFacade orderFacade;
 

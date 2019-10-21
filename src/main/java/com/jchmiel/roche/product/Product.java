@@ -45,10 +45,10 @@ public class Product {
 
 	public ProductDTO toDTO() {
 		ProductDTO dto = new ProductDTO();
-		dto.setSku(getSku());
-		dto.setName(getName());
-		dto.setPrice(getPrice());
-		dto.setCreatedDate(getCreatedDate());
+		dto.setSku(sku);
+		dto.setName(name);
+		dto.setPrice(price);
+		dto.setCreatedDate(createdDate);
 		return dto;
 	}
 

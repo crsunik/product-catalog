@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
 @EnableJpaRepositories(basePackages = "com.jchmiel.roche")
-public class RepositoryConfiguration {
+public class RepositoryConfig {
 }
