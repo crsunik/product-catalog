@@ -4,4 +4,5 @@
     <include file="001_create_product.xml" relativeToChangelogFile="true"/>
     <include file="002_create_order.xml" relativeToChangelogFile="true"/>
     <include file="003_create_order_line.xml" relativeToChangelogFile="true"/>
+    <include file="004_create_product_audit.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

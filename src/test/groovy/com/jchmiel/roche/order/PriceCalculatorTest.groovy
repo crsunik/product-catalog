@@ -10,7 +10,7 @@ class PriceCalculatorTest extends Specification {
     PriceCalculator priceCalculator = new PriceCalculator()
 
     @Unroll
-    def "should correctly calculate order total amount"(orderLines, totalAmount) {
+    def 'should correctly calculate order total amount'(orderLines, totalAmount) {
 
         when:
         BigDecimal result = priceCalculator.calculateTotalAmount(orderLines)
@@ -19,16 +19,16 @@ class PriceCalculatorTest extends Specification {
         result == totalAmount
 
         where:
-        orderLines                               | totalAmount
-        [orderLine(10.0, 1), orderLine(5.0, 5)]  | 35.0
-        [orderLine(10.0, 3), orderLine(5.0, 5)]  | 55.0
-        [orderLine(10.0, 1), orderLine(5.0, 10)] | 60.0
-        [orderLine(10.0, 1), orderLine(5.0, 1)]  | 15.0
-        []                                       | 0.0
+        orderLines                                             | totalAmount
+        [orderLine('sku', 10.0, 1), orderLine('sku', 5.0, 5)]  | 35.0
+        [orderLine('sku', 10.0, 3), orderLine('sku', 5.0, 5)]  | 55.0
+        [orderLine('sku', 10.0, 1), orderLine('sku', 5.0, 10)] | 60.0
+        [orderLine('sku', 10.0, 1), orderLine('sku', 5.0, 1)]  | 15.0
+        []                                                     | 0.0
     }
 
     @Unroll
-    def "should correctly calculate order line amount"(productPrice, quantity, lineAmount) {
+    def 'should correctly calculate order line amount'(productPrice, quantity, lineAmount) {
         given:
         def product = new Product(price: productPrice)
 

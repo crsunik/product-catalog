@@ -3,6 +3,7 @@ package com.jchmiel.roche.product;
 import com.jchmiel.roche.product.dto.ProductDTO;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,6 +22,7 @@ import java.util.stream.StreamSupport;
 @Getter
 @Setter
 @Entity
+@Audited
 public class Product {
 
 	@Id

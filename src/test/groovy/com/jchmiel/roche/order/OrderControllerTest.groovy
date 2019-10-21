@@ -1,8 +1,8 @@
 package com.jchmiel.roche.order
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.jchmiel.roche.CommonTestUtils
 import com.jchmiel.roche.order.dto.OrderDTO
-import com.jchmiel.roche.order.dto.OrderLineDTO
 import com.jchmiel.roche.order.dto.PlaceOrderDTO
 import com.jchmiel.roche.order.dto.PlaceOrderLineDTO
 import com.jchmiel.roche.order.exception.OrderNotFoundException
@@ -19,9 +19,9 @@ import spock.mock.DetachedMockFactory
 
 import java.time.LocalDate
 
+import static com.jchmiel.roche.order.OrderTestUtils.orderDTO
+import static com.jchmiel.roche.order.OrderTestUtils.orderLineDTO
 import static com.jchmiel.roche.order.OrderTestUtils.toOrderLines
-import static com.jchmiel.roche.product.ProductTestUtils.productDTO
-import static java.time.LocalDate.of
 import static org.hamcrest.Matchers.equalTo
 import static org.hamcrest.Matchers.hasSize
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
@@ -41,7 +41,7 @@ class OrderControllerTest extends Specification {
         given:
         def placeOrderLines = [new PlaceOrderLineDTO(productSku: 'productSku1', quantity: 10), new PlaceOrderLineDTO(productSku: 'productSku2', quantity: 5)]
         def placeOrder = new PlaceOrderDTO(orderLines: placeOrderLines, buyerEmail: 'test@buyer.com')
-        def orderCreatedDate = of(1990, 1, 1)
+        def orderCreatedDate = LocalDate.of(1990, 1, 1)
         def orderTotalAmount = 15
         def orderId = 1
 
@@ -90,18 +90,7 @@ class OrderControllerTest extends Specification {
 
     def 'should be able to retrieve an order based on its id'() {
         given:
-        def orderDto =
-                new OrderDTO(
-                        id: 1L,
-                        totalAmount: 10.0,
-                        createdDate: of(1999, 1, 1),
-                        buyerEmail: 'test@buyer',
-                        orderLines: [new OrderLineDTO(
-                                quantity: 10,
-                                amount: 100.0,
-                                product: productDTO('sku', 'name', 10.0, of(1990, 1, 1))
-                        )]
-                )
+        def orderDto = orderDTO([orderLineDTO()])
 
         when:
         def results = mockMvc.perform(get(OrderController.ORDERS_V1_URL + '/{id}', orderDto.id))
@@ -116,7 +105,7 @@ class OrderControllerTest extends Specification {
         and:
         results.andExpect(jsonPath('$.id', equalTo(orderDto.id.intValue())))
         results.andExpect(jsonPath('$.totalAmount', equalTo(orderDto.totalAmount.doubleValue())))
-        results.andExpect(jsonPath('$.createdDate', equalTo(orderDto.createdDate.format("dd-MM-yyyy"))))
+        results.andExpect(jsonPath('$.createdDate', equalTo(orderDto.createdDate.format(CommonTestUtils.DATE_PATTERN))))
         results.andExpect(jsonPath('$.buyerEmail', equalTo(orderDto.buyerEmail)))
         results.andExpect(jsonPath('$.orderLines', hasSize(1)))
         results.andExpect(jsonPath('$.orderLines[0].quantity', equalTo(orderDto.orderLines[0].quantity.intValue())))
@@ -125,7 +114,7 @@ class OrderControllerTest extends Specification {
         results.andExpect(jsonPath('$.orderLines[0].product.name', equalTo(orderDto.orderLines[0].product.name)))
         results.andExpect(jsonPath('$.orderLines[0].product.name', equalTo(orderDto.orderLines[0].product.name)))
         results.andExpect(jsonPath('$.orderLines[0].product.price', equalTo(orderDto.orderLines[0].product.price.doubleValue())))
-        results.andExpect(jsonPath('$.orderLines[0].product.createdDate', equalTo(orderDto.orderLines[0].product.createdDate.format("dd-MM-yyyy"))))
+        results.andExpect(jsonPath('$.orderLines[0].product.createdDate', equalTo(orderDto.orderLines[0].product.createdDate.format(CommonTestUtils.DATE_PATTERN))))
     }
 
     def 'should receive 404 if order with given id wasnt found'() {
@@ -140,15 +129,15 @@ class OrderControllerTest extends Specification {
         0 * _
     }
 
-    def 'should return empty list of order'() {
+    def 'should return empty list LocalDate.of order'() {
         given:
         def from = LocalDate.now()
         def to = LocalDate.now()
 
         when:
         def results = mockMvc.perform(get(OrderController.ORDERS_V1_URL)
-                .param('from', from.format('dd-MM-yyyy'))
-                .param('to', to.format('dd-MM-yyyy'))
+                .param('from', from.format(CommonTestUtils.DATE_PATTERN))
+                .param('to', to.format(CommonTestUtils.DATE_PATTERN))
 
         )
 
@@ -166,26 +155,15 @@ class OrderControllerTest extends Specification {
 
     def 'should return all orders in the give period'() {
         given:
-        def orderDto =
-                new OrderDTO(
-                        id: 1L,
-                        totalAmount: 10.0,
-                        createdDate: of(1999, 1, 1),
-                        buyerEmail: 'test@buyer',
-                        orderLines: [new OrderLineDTO(
-                                quantity: 10,
-                                amount: 100.0,
-                                product: productDTO('sku', 'name', 10.0, of(1990, 1, 1))
-                        )]
-                )
+        def orderDto = orderDTO([orderLineDTO()])
         def orderDtos = [orderDto, orderDto]
         def from = LocalDate.now()
         def to = LocalDate.now()
 
         when:
         def results = mockMvc.perform(get(OrderController.ORDERS_V1_URL)
-                .param('from', from.format('dd-MM-yyyy'))
-                .param('to', to.format('dd-MM-yyyy'))
+                .param('from', from.format(CommonTestUtils.DATE_PATTERN))
+                .param('to', to.format(CommonTestUtils.DATE_PATTERN))
         )
 
         then:
@@ -199,12 +177,12 @@ class OrderControllerTest extends Specification {
         results.andExpect(jsonPath('$', hasSize(2)))
         results.andExpect(jsonPath('$[0].id', equalTo(orderDto.id.intValue())))
         results.andExpect(jsonPath('$[0].totalAmount', equalTo(orderDto.totalAmount.doubleValue())))
-        results.andExpect(jsonPath('$[0].createdDate', equalTo(orderDto.createdDate.format("dd-MM-yyyy"))))
+        results.andExpect(jsonPath('$[0].createdDate', equalTo(orderDto.createdDate.format(CommonTestUtils.DATE_PATTERN))))
         results.andExpect(jsonPath('$[0].buyerEmail', equalTo(orderDto.buyerEmail)))
         results.andExpect(jsonPath('$[0].orderLines', hasSize(1)))
         results.andExpect(jsonPath('$[1].id', equalTo(orderDto.id.intValue())))
         results.andExpect(jsonPath('$[1].totalAmount', equalTo(orderDto.totalAmount.doubleValue())))
-        results.andExpect(jsonPath('$[1].createdDate', equalTo(orderDto.createdDate.format("dd-MM-yyyy"))))
+        results.andExpect(jsonPath('$[1].createdDate', equalTo(orderDto.createdDate.format(CommonTestUtils.DATE_PATTERN))))
         results.andExpect(jsonPath('$[1].buyerEmail', equalTo(orderDto.buyerEmail)))
         results.andExpect(jsonPath('$[1].orderLines', hasSize(1)))
     }

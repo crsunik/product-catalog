@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class OrderFacade {
+class OrderFacade {
 
 	private final OrderCreator orderCreator;
 	private final OrderRepository orderRepository;

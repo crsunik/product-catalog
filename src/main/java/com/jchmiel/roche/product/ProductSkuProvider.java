@@ -6,11 +6,9 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class ProductSkuProvider {
+class ProductSkuProvider {
 
-	public String provide(String name) {
-		String sku = RandomStringUtils.random(8, false, true);
-		log.debug("Sku {} was assigned to product {}", sku, name);
-		return sku;
+	String provide() {
+		return RandomStringUtils.random(8, false, true);
 	}
 }

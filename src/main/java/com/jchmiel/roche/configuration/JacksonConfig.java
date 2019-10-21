@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 @Configuration
-public class JacksonConfig implements WebMvcConfigurer {
+class JacksonConfig implements WebMvcConfigurer {
 
 	private static final String DATE_FORMAT = "dd-MM-yyyy";
 

@@ -16,13 +16,13 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class OrderCreator {
+class OrderCreator {
 
 	private final ProductRepository productRepository;
 	private final PriceCalculator priceCalculator;
 	private final CurrentDateProvider currentDateProvider;
 
-	public Order createCreator(PlaceOrderDTO placeOrder) {
+	Order createCreator(PlaceOrderDTO placeOrder) {
 		if (placeOrder.getOrderLines() == null || placeOrder.getOrderLines().isEmpty()) {
 			throw new EmptyOrderException();
 		}

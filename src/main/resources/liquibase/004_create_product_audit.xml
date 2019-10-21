@@ -1,0 +1,46 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet id="004_create_product_audit" author="jchmiel">
+        <createSequence sequenceName="hibernate_sequence" startValue="1" incrementBy="1"/>
+
+        <createTable tableName="revinfo">
+            <column name="rev" type="bigint">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="revtstmp" type="bigint"/>
+        </createTable>
+
+        <createTable tableName="product_aud">
+            <column name="id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rev" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revtype" type="smallint"/>
+            <column name="sku" type="varchar(8)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="numeric(19,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="rev"
+                                 baseTableName="product_aud"
+                                 constraintName="fk_product_aud_revinfo"
+                                 referencedColumnNames="rev"
+                                 referencedTableName="revinfo"/>
+    </changeSet>
+</databaseChangeLog>

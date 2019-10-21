@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ProductCreator {
+class ProductCreator {
 
 	private final ProductSkuProvider productSkuProvider;
 	private final CurrentDateProvider currentDateProvider;
@@ -16,7 +16,7 @@ public class ProductCreator {
 		Product product = new Product();
 		product.setName(createProductDTO.getName());
 		product.setPrice(createProductDTO.getPrice());
-		product.setSku(productSkuProvider.provide(createProductDTO.getName()));
+		product.setSku(productSkuProvider.provide());
 		product.setCreatedDate(currentDateProvider.currentDate());
 		product.setStatus(ProductStatus.ACTIVE);
 		return product;

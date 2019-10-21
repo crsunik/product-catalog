@@ -30,10 +30,10 @@ class OrderCreatorTest extends Specification {
         orderCreator = new OrderCreator(productRepositoryMock, priceCalculatorMock, currentDateProviderMock)
     }
 
-    def "should create order"() {
+    def 'should create order'() {
         given:
-        def orderLines = [placeOrderLineDTO("sku0", 10), placeOrderLineDTO("sku1", 20)]
-        def placeOrderDto = new PlaceOrderDTO(buyerEmail: 'buyerEmail@test', orderLines: orderLines)
+        def orderLines = [placeOrderLineDTO('sku0', 10), placeOrderLineDTO('sku1', 20)]
+        def placeOrderDto = new PlaceOrderDTO(buyerEmail: OrderTestUtils.BUYER_EMAIL, orderLines: orderLines)
         def currentDate = LocalDate.of(1990, 1, 1)
         def product0 = ProductTestUtils.product(orderLines[0].productSku, orderLines[0].productSku, 10.0)
         def product1 = ProductTestUtils.product(orderLines[1].productSku, orderLines[1].productSku, 20.0)
@@ -66,10 +66,10 @@ class OrderCreatorTest extends Specification {
         1 * priceCalculatorMock.calculateTotalAmount(_) >> totalAmount
     }
 
-    def "exception ProductNotFoundException should be thrown"() {
+    def 'exception ProductNotFoundException should be thrown'() {
         given:
-        def orderLines = [placeOrderLineDTO("sku0", 10), placeOrderLineDTO("sku1", 20)]
-        def placeOrderDto = new PlaceOrderDTO(buyerEmail: 'buyerEmail@test', orderLines: orderLines)
+        def orderLines = [placeOrderLineDTO('sku0', 10), placeOrderLineDTO('sku1', 20)]
+        def placeOrderDto = new PlaceOrderDTO(buyerEmail: OrderTestUtils.BUYER_EMAIL, orderLines: orderLines)
         def product0 = ProductTestUtils.product(orderLines[0].productSku, orderLines[0].productSku, 10.0)
         def line0Amount = 100.0
 
@@ -85,7 +85,7 @@ class OrderCreatorTest extends Specification {
         1 * priceCalculatorMock.calculateLineAmount(product0, orderLines[0].quantity) >> line0Amount
     }
 
-    def "should throw EmptyOrderException"() {
+    def 'should throw EmptyOrderException'() {
         given:
         def orderLines = []
         def placeOrderDto = new PlaceOrderDTO(buyerEmail: 'buyerEmail@test', orderLines: orderLines)

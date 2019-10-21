@@ -19,7 +19,7 @@ class OrderFacadeTest extends Specification {
 
     }
 
-    def "should successfully create and save the order"() {
+    def 'should successfully create and save the order'() {
         given:
         def placeOrder = Mock(PlaceOrderDTO)
         def order = Mock(Order)
@@ -38,7 +38,7 @@ class OrderFacadeTest extends Specification {
         0 * _
     }
 
-    def "should successfully find Order and return its dto"() {
+    def 'should successfully find Order and return its dto'() {
         given:
         def orderId = 1L
         def order = Mock(Order)
@@ -55,7 +55,7 @@ class OrderFacadeTest extends Specification {
         0 * _
     }
 
-    def "should throw an OrderNotFoundException if there is no order for given id"() {
+    def 'should throw an OrderNotFoundException if there is no order for given id'() {
         given:
         def orderId = 1L
 

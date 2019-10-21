@@ -253,8 +253,8 @@ What I didn't focus on and can be improved
 2. SKU generator is simple random string generator. In the real application it should be a more sophisticated service that would ensure uniqueness of the generated number. 
 As it is, it is good enough and database constraint guarantees that here will be no duplicates in the DB.
 3. Security. Right now the project and endpoints are not secured at all.
-4. Change history of the products and storing historical entries. 
-5. At the moment I am writing this there is no integration test - simply, because I've run out of time. I will add it as soon as possible
+4. At the moment I am writing this there is no integration test - simply, because I've run out of time. I will add it as soon as possible
+5. Spring Cloud Contract could be introduced to ensure compatibility with service client
 
 What I did focus on
 =

@@ -12,10 +12,15 @@ import org.springframework.test.web.servlet.MockMvc
 import spock.lang.Specification
 import spock.mock.DetachedMockFactory
 
+import static com.jchmiel.roche.CommonTestUtils.DATE_PATTERN
+import static com.jchmiel.roche.product.ProductTestUtils.PRODUCT_SKU
 import static com.jchmiel.roche.product.ProductTestUtils.productDTO
 import static org.hamcrest.Matchers.equalTo
 import static org.hamcrest.Matchers.hasSize
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
@@ -68,19 +73,19 @@ class ProductControllerTest extends Specification {
         results.andExpect(jsonPath('$[0].name', equalTo(products[0].name)))
         results.andExpect(jsonPath('$[0].sku', equalTo(products[0].sku)))
         results.andExpect(jsonPath('$[0].price', equalTo(products[0].price.doubleValue())))
-        results.andExpect(jsonPath('$[0].createdDate', equalTo(products[0].createdDate.format("dd-MM-yyyy"))))
+        results.andExpect(jsonPath('$[0].createdDate', equalTo(products[0].createdDate.format(DATE_PATTERN))))
 
         and:
         results.andExpect(jsonPath('$[1].name', equalTo(products[1].name)))
         results.andExpect(jsonPath('$[1].sku', equalTo(products[1].sku)))
         results.andExpect(jsonPath('$[1].price', equalTo(products[1].price.doubleValue())))
-        results.andExpect(jsonPath('$[1].createdDate', equalTo(products[1].createdDate.format("dd-MM-yyyy"))))
+        results.andExpect(jsonPath('$[1].createdDate', equalTo(products[1].createdDate.format(DATE_PATTERN))))
     }
 
     def 'should create new product entry in storage'() {
         given:
-        def productDTO = productDTO('productName')
-        def createProductDTO = new CreateProductDTO(name: 'productName', price: 10.0)
+        def productDTO = productDTO()
+        def createProductDTO = new CreateProductDTO(name: ProductTestUtils.PRODUCT_NAME, price: ProductTestUtils.PRODUCT_PRICE)
         def createProductDTOContent = objectMapper.writeValueAsBytes(createProductDTO)
 
         when:
@@ -99,12 +104,12 @@ class ProductControllerTest extends Specification {
         results.andExpect(jsonPath('$.sku', equalTo(productDTO.sku)))
         results.andExpect(jsonPath('$.name', equalTo(productDTO.name)))
         results.andExpect(jsonPath('$.price', equalTo(productDTO.price.doubleValue())))
-        results.andExpect(jsonPath('$.createdDate', equalTo(productDTO.createdDate.format("dd-MM-yyyy"))))
+        results.andExpect(jsonPath('$.createdDate', equalTo(productDTO.createdDate.format(DATE_PATTERN))))
     }
 
     def 'should find product by SKU'() {
         given:
-        def productDTO = productDTO('product')
+        def productDTO = productDTO()
 
         when:
         def results = mockMvc.perform(get(ProductController.PRODUCTS_V1_URL + '/{sku}', productDTO.sku))
@@ -120,12 +125,12 @@ class ProductControllerTest extends Specification {
         results.andExpect(jsonPath('$.sku', equalTo(productDTO.sku)))
         results.andExpect(jsonPath('$.name', equalTo(productDTO.name)))
         results.andExpect(jsonPath('$.price', equalTo(productDTO.price.doubleValue())))
-        results.andExpect(jsonPath('$.createdDate', equalTo(productDTO.createdDate.format("dd-MM-yyyy"))))
+        results.andExpect(jsonPath('$.createdDate', equalTo(productDTO.createdDate.format(DATE_PATTERN))))
     }
 
     def 'should return status 404 if no product was found for given SKU'() {
         given:
-        def productDTO = productDTO('product')
+        def productDTO = productDTO()
 
         when:
         def results = mockMvc.perform(get(ProductController.PRODUCTS_V1_URL + '/{sku}', productDTO.sku))
@@ -142,7 +147,7 @@ class ProductControllerTest extends Specification {
 
     def 'should return status 204 if product was successfully updated'() {
         given:
-        def productDTO = productDTO('updateProduct')
+        def productDTO = productDTO()
 
         when:
         def results = mockMvc.perform(put(ProductController.PRODUCTS_V1_URL + '/{sku}', productDTO.sku)
@@ -159,7 +164,7 @@ class ProductControllerTest extends Specification {
 
     def 'should return status 404 if product was not found and thus not updated'() {
         given:
-        def productDTO = productDTO('updateProduct')
+        def productDTO = productDTO()
 
         when:
         def results = mockMvc.perform(put(ProductController.PRODUCTS_V1_URL + '/{sku}', productDTO.sku)
@@ -176,7 +181,7 @@ class ProductControllerTest extends Specification {
 
     def 'should return status 204 if product was successfully deleted'() {
         given:
-        def sku = 'sku'
+        def sku = PRODUCT_SKU
 
         when:
         def results = mockMvc.perform(delete(ProductController.PRODUCTS_V1_URL + '/{sku}', sku))
@@ -191,7 +196,7 @@ class ProductControllerTest extends Specification {
 
     def 'should return status 404 if product was not found and thus not deleted'() {
         given:
-        def sku = 'sku'
+        def sku = PRODUCT_SKU
 
         when:
         def results = mockMvc.perform(delete(ProductController.PRODUCTS_V1_URL + '/{sku}', sku))

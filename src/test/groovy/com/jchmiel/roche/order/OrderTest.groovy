@@ -1,18 +1,22 @@
 package com.jchmiel.roche.order
 
 import com.jchmiel.roche.order.dto.OrderDTO
-import com.jchmiel.roche.product.Product
 import spock.lang.Specification
 
 import java.time.LocalDate
 
+import static com.jchmiel.roche.order.OrderTestUtils.orderLine
+
 class OrderTest extends Specification {
-    def "should properly convert to DTO"() {
+
+    def 'should properly convert to DTO'() {
         given:
-        def orderLines = [new OrderLine(quantity: 10, amount: 5.0, product: new Product(sku: 'sku1')), new OrderLine(quantity: 50, amount: 1.0, product: new Product(sku: 'sku2'))]
+        def orderLines = [orderLine('sku1', 10, 5), orderLine('sku2', 50, 1)]
         def order = new Order(createdDate: LocalDate.now(), totalAmount: 100.0, buyerEmail: 'buyer@email', orderLines: orderLines)
+
         when:
         OrderDTO orderDTO = order.toDTO()
+
         then:
         orderDTO.createdDate == order.createdDate
         orderDTO.totalAmount == order.totalAmount

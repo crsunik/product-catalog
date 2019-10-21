@@ -77,7 +77,7 @@ class ProductFacadeTest extends Specification {
 
     def "should return product for given sku"() {
         given:
-        def sku = 'sku'
+        def sku = ProductTestUtils.PRODUCT_SKU
         def product = Mock(Product)
         def productDto = Mock(ProductDTO)
 
@@ -95,7 +95,7 @@ class ProductFacadeTest extends Specification {
 
     def "exception ProductNotFoundException should be thrown if no product found"() {
         given:
-        def sku = 'sku'
+        def sku = ProductTestUtils.PRODUCT_SKU
 
         when:
         productFacade.find(sku)
@@ -110,7 +110,7 @@ class ProductFacadeTest extends Specification {
 
     def "should update product with given sku"() {
         given:
-        def sku = 'sku'
+        def sku = ProductTestUtils.PRODUCT_SKU
         def product = Mock(Product)
         def productDto = new ProductDTO(sku: sku, name: 'newName', price: 101.0, createdDate: LocalDate.now())
 
@@ -127,7 +127,7 @@ class ProductFacadeTest extends Specification {
 
     def "exception ProductNotFoundException should be thrown if no product found and thus not update"() {
         given:
-        def sku = 'sku'
+        def sku = ProductTestUtils.PRODUCT_SKU
         def productDto = new ProductDTO(sku: sku, name: 'newName', price: 101.0, createdDate: LocalDate.now())
 
         when:
@@ -158,7 +158,7 @@ class ProductFacadeTest extends Specification {
 
     def "should delete product with given sku"() {
         given:
-        def sku = 'sku'
+        def sku = ProductTestUtils.PRODUCT_SKU
         def product = Mock(Product)
 
         when:
@@ -173,7 +173,7 @@ class ProductFacadeTest extends Specification {
 
     def "exception ProductNotFoundException should be thrown if no product found and thus not delete"() {
         given:
-        def sku = 'sku'
+        def sku = ProductTestUtils.PRODUCT_SKU
 
         when:
         productFacade.delete(sku)
