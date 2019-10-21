@@ -1,7 +1,8 @@
 package com.jchmiel.roche.product;
 
 import com.jchmiel.roche.product.dto.ProductDTO;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +18,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-@Data
+@Getter
+@Setter
 @Entity
 public class Product {
 

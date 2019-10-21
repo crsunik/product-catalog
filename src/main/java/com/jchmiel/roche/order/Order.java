@@ -1,7 +1,8 @@
 package com.jchmiel.roche.order;
 
 import com.jchmiel.roche.order.dto.OrderDTO;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,7 +18,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-@Data
+@Getter
+@Setter
 @Entity
 public class Order {
 

@@ -2,7 +2,8 @@ package com.jchmiel.roche.order;
 
 import com.jchmiel.roche.order.dto.OrderLineDTO;
 import com.jchmiel.roche.product.Product;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +17,8 @@ import javax.persistence.OneToOne;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-@Data
+@Getter
+@Setter
 @Entity
 public class OrderLine {
 
